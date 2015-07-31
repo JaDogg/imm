@@ -21,36 +21,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package info.simpll.immense.prime;
-
-import java.math.BigInteger;
-
-import static org.junit.Assert.*;
-
-import com.google.common.base.Joiner;
-import org.junit.Test;
+package info.simpll.immense.basic;
 
 /**
+ *
  * @author Bhathiya
  */
-public class PrimeTest {
-
-    @Test
-    public void testApi() {
-        Prime p = new Prime(BigInteger.TEN);
-        assertEquals(p.size(), 7);
-    }
-
-    @Test
-    public void testFirstFewPrimes() {
-        Prime prime = new Prime(BigInteger.valueOf(10000));
-
-        prime.calculate();
-        String expected = Joiner.on(", ").join(PrimeList.get().subList(0, prime.size()));
-        String actual = Joiner.on(", ").join(prime.get());
-
-        System.out.println("Calculated = " + actual);
-        System.out.println("Stored     = " + expected);
-        assertEquals(expected, actual);
+public class DoubleBasics {
+    public static double EPSILON = Math.pow(1, -10);
+    
+    public static boolean doubleEquals(double a, double b) {
+        return (Math.abs(a - b) <= EPSILON);
     }
 }

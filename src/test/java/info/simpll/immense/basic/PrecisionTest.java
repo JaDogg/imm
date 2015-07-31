@@ -38,7 +38,7 @@ public class PrecisionTest {
         double a = 3.0;
         double b = 6.0 / 2.0;
         boolean expResult = true;
-        boolean result = Precision.doubleEquals(a, b);
+        boolean result = DoubleBasics.doubleEquals(a, b);
         assertEquals(expResult, result);
     }
     

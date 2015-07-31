@@ -21,36 +21,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package info.simpll.immense.prime;
+package info.simpll.immense.basic;
 
 import java.math.BigInteger;
 
-import static org.junit.Assert.*;
-
-import com.google.common.base.Joiner;
-import org.junit.Test;
-
 /**
+ *
  * @author Bhathiya
  */
-public class PrimeTest {
+public class BigIntegerBasics {
 
-    @Test
-    public void testApi() {
-        Prime p = new Prime(BigInteger.TEN);
-        assertEquals(p.size(), 7);
+    public static boolean isLessThan(BigInteger leftHandSide,
+            BigInteger rightHandSide) {
+        return leftHandSide.compareTo(rightHandSide) == -1;
     }
 
-    @Test
-    public void testFirstFewPrimes() {
-        Prime prime = new Prime(BigInteger.valueOf(10000));
+    public static boolean isGreaterThan(BigInteger leftHandSide,
+            BigInteger rightHandSide) {
+        return leftHandSide.compareTo(rightHandSide) == 1;
+    }
 
-        prime.calculate();
-        String expected = Joiner.on(", ").join(PrimeList.get().subList(0, prime.size()));
-        String actual = Joiner.on(", ").join(prime.get());
+    public static boolean isLessThanOrEquals(BigInteger leftHandSide,
+            BigInteger rightHandSide) {
+        return leftHandSide.compareTo(rightHandSide) <= 0;
+    }
 
-        System.out.println("Calculated = " + actual);
-        System.out.println("Stored     = " + expected);
-        assertEquals(expected, actual);
+    public static boolean isGreaterThanOrEquals(BigInteger leftHandSide,
+            BigInteger rightHandSide) {
+        return leftHandSide.compareTo(rightHandSide) >= 0;
     }
 }

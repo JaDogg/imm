@@ -46,11 +46,11 @@ public class SieveTest {
     @Test
     public void testSetAndGet() {
         Sieve instance = new Sieve(10, 2);
-        for (int i = 2; i < (int) instance.getEndIndex().longValue(); ++i) {
+        for (int i = 2; i < (int) instance.getEndIndex().longValue(); i++) {
             instance.set(BigInteger.valueOf(i));
         }
         instance.debugPrint("testSetAndGet");
-        for (int i = 2; i < (int) instance.getEndIndex().longValue(); ++i) {
+        for (int i = 2; i < (int) instance.getEndIndex().longValue(); i++) {
             assertTrue(instance.get(BigInteger.valueOf(i)));
         }
     }
@@ -81,7 +81,7 @@ public class SieveTest {
     @Test
     public void testIncrement() {
         Sieve instance = new Sieve(10, 2);
-        for (int i = 2; i < (int) instance.getEndIndex().longValue(); ++i) {
+        for (int i = 2; i < (int) instance.getEndIndex().longValue(); i++) {
             instance.set(BigInteger.valueOf(i));
         }
         instance.increment();

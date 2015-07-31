@@ -21,16 +21,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package info.simpll.immense.basic;
+package info.simpll.immense.prime;
+
+import com.google.common.base.Joiner;
+import org.junit.Assert;
+import org.junit.Test;
 
 /**
  *
  * @author Bhathiya
  */
-public class Precision {
-    public static double EPSILON = Math.pow(1, -10);
-    
-    public static boolean doubleEquals(double a, double b) {
-        return (Math.abs(a - b) <= EPSILON);
+public class JPrimeTest {
+
+    @Test
+    public void testCreateObject() {
+        JPrime prime = new JPrime(30);
+        prime.printUnset();
+    }
+
+    @Test
+    public void testFirstFewPrimes() {
+        JPrime prime = new JPrime(102); 
+        
+        prime.calculate();
+        String expected = Joiner.on(", ").join(PrimeList.get().subList(0, prime.size()));
+        String actual = Joiner.on(", ").join(prime.get());
+        
+        System.out.println("Calculated = " + actual);
+        System.out.println("Stored     = " + expected);
+        Assert.assertEquals(expected, actual);
     }
 }

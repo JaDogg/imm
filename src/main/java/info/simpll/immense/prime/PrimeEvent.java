@@ -25,32 +25,11 @@ package info.simpll.immense.prime;
 
 import java.math.BigInteger;
 
-import static org.junit.Assert.*;
-
-import com.google.common.base.Joiner;
-import org.junit.Test;
-
 /**
+ * Prime class will call the PrimeEvent object when a new prime is discovered
+ * 
  * @author Bhathiya
  */
-public class PrimeTest {
-
-    @Test
-    public void testApi() {
-        Prime p = new Prime(BigInteger.TEN);
-        assertEquals(p.size(), 7);
-    }
-
-    @Test
-    public void testFirstFewPrimes() {
-        Prime prime = new Prime(BigInteger.valueOf(10000));
-
-        prime.calculate();
-        String expected = Joiner.on(", ").join(PrimeList.get().subList(0, prime.size()));
-        String actual = Joiner.on(", ").join(prime.get());
-
-        System.out.println("Calculated = " + actual);
-        System.out.println("Stored     = " + expected);
-        assertEquals(expected, actual);
-    }
+public interface PrimeEvent {
+    public boolean onPrime(BigInteger prime);
 }

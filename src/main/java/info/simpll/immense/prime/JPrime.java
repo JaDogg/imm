@@ -24,20 +24,17 @@
 package info.simpll.immense.prime;
 
 import com.google.common.collect.Lists;
+
 import java.util.BitSet;
 import java.util.List;
 
 /**
- * 
- * 
  * @author Bhathiya
- * 
- * 
- * Prime.upto(1000).calculate()
- * Prime.untilNth(10001).calculate()
- * Prime.getLast()
+ *         Prime.upto(1000).calculate()
+ *         Prime.untilNth(10001).calculate()
+ *         Prime.getLast()
  */
-public class Prime {
+public class JPrime {
 
     private final int max;
     private int slotStart;
@@ -46,9 +43,9 @@ public class Prime {
     private final List<Integer> primes;
     private final List<Integer> lastMultiple;
     private int currentPos;
-    
 
-    public Prime(int max) {
+
+    public JPrime(int max) {
         this.max = max;
         slotStart = 2;
         slotEnd = 998;
@@ -74,7 +71,7 @@ public class Prime {
     public int size() {
         return primes.size();
     }
-    
+
     public void calculate() {
 
         while (true) {
@@ -85,10 +82,10 @@ public class Prime {
             if (currentPos >= max) {
                 return;
             }
-            
+
             // Found a new prime
             primes.add(currentPos);
-            
+
             crossOutNonPrimes(currentPos);
         }
     }

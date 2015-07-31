@@ -34,7 +34,7 @@ public class IterableNumberTest {
 
     @Test
     public void eulerCircularPrimes() throws Exception {
-        Prime primes = new Prime(BigIntegerBasics.HUNDRED);
+        Prime primes = new Prime(BigIntegerBasics.ONE_MILLION);
         primes.calculate();
         List<BigInteger> primeList = primes.get();
         Sequence<BigInteger> primeSequence = new Sequence<>(primeList);
@@ -56,5 +56,40 @@ public class IterableNumberTest {
         }
 
         System.out.printf("Answer to Euler 35 = %d%n", circularCount);
+    }
+
+
+    @Test
+    public void eulerTruncatablePrimes() throws Exception {
+        Prime primes = new Prime(BigIntegerBasics.TWO_MILLION);
+        primes.calculate();
+        List<BigInteger> primeList = primes.get();
+        Sequence<BigInteger> primeSequence = new Sequence<>(primeList);
+        primeSequence.initialize();
+
+
+        int truncatableCount = 0;
+        BigInteger sum = BigInteger.ZERO;
+        Object[] primeArray = primeSequence.getArray();
+
+        outerLoop:
+        for (int i = 4; i < primes.count(); i++) { // Since first 4 primes 2,3,5,7 are ignored, start from 5th
+            BigInteger prime = (BigInteger) primeArray[i];
+            IterableNumber leftIteration = BigIntegerBasics.splitNumber(prime);
+            BigInteger[] leftParts = leftIteration.getLeftConsecutiveParts();
+            BigInteger[] rightParts = leftIteration.getRightConsecutiveParts();
+            for (int j = 0; j < leftIteration.size() - 1; j++) {
+                if (!(primeSequence.contains(leftParts[j]) && primeSequence.contains(rightParts[j]))) {
+                    continue outerLoop;
+                }
+            }
+            truncatableCount++;
+            sum = sum.add(prime);
+            if (truncatableCount == 11) {
+                break;
+            }
+        }
+
+        System.out.printf("Answer to Euler 37 = %s, Count = %d %n", sum.toString(), truncatableCount);
     }
 }

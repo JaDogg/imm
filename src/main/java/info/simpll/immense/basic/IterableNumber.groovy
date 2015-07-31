@@ -3,21 +3,24 @@ package info.simpll.immense.basic
 import com.google.common.base.MoreObjects
 
 public class IterableNumber implements Iterable<BigInteger>, Indexable<BigInteger> {
-    public int count
-    public byte[] partsAsByte
-    public BigInteger[] partsAsBigInteger
-    public BigInteger[] consecutiveParts
-    public BigInteger original
+    private int count
+    private int lastIndex
+    private byte[] partsAsByte
+    private BigInteger[] partsAsBigInteger
+    private BigInteger[] leftConsecutiveParts
+    private BigInteger[] rightConsecutiveParts
+    private BigInteger original
     private boolean maybeEven
     private boolean[] hasDigit
     private int[] digitCount
 
-
     private IterableNumber(int approximateSize) {
         count = 0
+        lastIndex = -1
         partsAsByte = new byte[approximateSize]
         partsAsBigInteger = new BigInteger[approximateSize]
-        consecutiveParts = new BigInteger[approximateSize]
+        leftConsecutiveParts = new BigInteger[approximateSize]
+        rightConsecutiveParts = new BigInteger[approximateSize]
         hasDigit = new boolean[10]
         digitCount = new int[10]
 
@@ -35,15 +38,11 @@ public class IterableNumber implements Iterable<BigInteger>, Indexable<BigIntege
         BigInteger current = value.add(BigInteger.ZERO)
         int index = -1
 
-        consecutiveParts[0] = current
-
         while (current > 0) {
             BigInteger[] parts = current.divideAndRemainder(BigInteger.TEN)
-
             current = parts[0]
-
             partsAsBigInteger[++index] = parts[1]
-            consecutiveParts[index + 1] = current
+            leftConsecutiveParts[index] = current
             byte byteVal = (byte) parts[1].intValue()
             partsAsByte[index] = byteVal
             if ((byteVal % 2) == 0) {
@@ -54,7 +53,19 @@ public class IterableNumber implements Iterable<BigInteger>, Indexable<BigIntege
         }
 
         count = index + 1
+        lastIndex = index
         original = value
+
+        BigInteger recalculated = BigInteger.ZERO
+        BigInteger powerOfTen = BigInteger.ONE
+        for (int i = 0; i < count; i++) {
+            if (i > 0) {
+                rightConsecutiveParts[i - 1] = recalculated
+            }
+            recalculated += partsAsBigInteger[i].multiply(powerOfTen)
+            powerOfTen = powerOfTen.multiply(BigInteger.TEN)
+        }
+
     }
 
     @Override
@@ -75,11 +86,11 @@ public class IterableNumber implements Iterable<BigInteger>, Indexable<BigIntege
     }
 
     public BigInteger getLast() {
-        return partsAsBigInteger[count - 1]
+        return partsAsBigInteger[lastIndex]
     }
 
     public byte getLastAsByte() {
-        return partsAsByte[count - 1]
+        return partsAsByte[lastIndex]
     }
 
     public BigInteger getFirst() {
@@ -113,11 +124,9 @@ public class IterableNumber implements Iterable<BigInteger>, Indexable<BigIntege
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("count", count)
                 .add("partsAsByte", Arrays.toString(partsAsByte))
-                .add("consecutiveParts", Arrays.toString(consecutiveParts))
-                .add("original", original)
-                .add("maybeEven", hasEvenParts())
+                .add("leftConsecutiveParts", Arrays.toString(leftConsecutiveParts))
+                .add("rightConsecutiveParts", Arrays.toString(rightConsecutiveParts))
                 .toString()
     }
 
@@ -141,9 +150,8 @@ public class IterableNumber implements Iterable<BigInteger>, Indexable<BigIntege
         return recalculated
     }
 
-    public void rotate() {
-        // TODO this should be a linked list
-        int lastIndex = count - 1
+    public rotate() {
+        // TODO this should be a faster if this is a linked list
         byte lastByte = partsAsByte[lastIndex]
         BigInteger lastBigInt = partsAsBigInteger[lastIndex]
         for (int i = lastIndex - 1; i >= 0; i--) {
@@ -152,5 +160,57 @@ public class IterableNumber implements Iterable<BigInteger>, Indexable<BigIntege
         }
         partsAsByte[0] = lastByte
         partsAsBigInteger[0] = lastBigInt
+    }
+
+    public IterableNumber reverse() {
+        for (int i = 0; i < count; i++) {
+            BigInteger bigIntTemp = partsAsBigInteger[i]
+            byte byteTemp = partsAsByte[i]
+
+            partsAsBigInteger[i] = partsAsBigInteger[lastIndex - i]
+            partsAsBigInteger[lastIndex - i] = bigIntTemp
+
+            partsAsByte[i] = partsAsByte[lastIndex - i]
+            partsAsByte[lastIndex - i] = byteTemp
+        }
+        return this
+    }
+
+    public IterableNumber cloneReversed() {
+        BigInteger recalculated = BigInteger.ZERO
+        BigInteger powerOfTen = BigInteger.ONE
+        for (int i = lastIndex; i >= 0; i--) {
+            recalculated += partsAsBigInteger[i].multiply(powerOfTen)
+            powerOfTen = powerOfTen.multiply(BigInteger.TEN)
+        }
+        return new IterableNumber(recalculated)
+    }
+
+    public IterableNumber clone() {
+        return new IterableNumber(original)
+    }
+
+    int getCount() {
+        return count
+    }
+
+    int getLastIndex() {
+        return lastIndex
+    }
+
+    byte[] getPartsAsByte() {
+        return partsAsByte
+    }
+
+    BigInteger[] getPartsAsBigInteger() {
+        return partsAsBigInteger
+    }
+
+    BigInteger[] getLeftConsecutiveParts() {
+        return leftConsecutiveParts
+    }
+
+    BigInteger[] getRightConsecutiveParts() {
+        return rightConsecutiveParts
     }
 }

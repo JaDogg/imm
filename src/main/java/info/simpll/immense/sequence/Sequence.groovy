@@ -24,7 +24,7 @@ class Sequence<T> extends ArrayList<T> {
         super(values)
     }
 
-    public calculate() {
+    public initialize() {
         consecutiveSums = new T[this.size()]
         consecutiveDiffs = new T[this.size()]
 
@@ -59,11 +59,7 @@ class Sequence<T> extends ArrayList<T> {
     public String toString() {
         return MoreObjects.toStringHelper(this.getClass())
                 .add("size", size())
-                .add("consecutiveSums", Arrays.toString(consecutiveSums))
-                .add("consecutiveDiffs", Arrays.toString(consecutiveDiffs))
                 .add("cumulativeSums", Arrays.toString(cumulativeSums))
-                .add("reversedCumulativeSums", Arrays.toString(reversedCumulativeSums))
-                .add("array", Arrays.toString(array))
                 .toString()
     }
 

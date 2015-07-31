@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package info.simpll.immense.sequence;
+package info.simpll.immense.basic;
 
 /**
  * @author Bhathiya

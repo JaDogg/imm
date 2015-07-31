@@ -32,7 +32,7 @@ import java.util.stream.IntStream;
 
 /**
  * Sieve holds a BitSet that is used to cross out numbers,
- * However unlike BitSet, sieve uses different indexing scheme
+ * However unlike BitSet, bitSet uses different indexing scheme
  * Which is more suitable for prime number calculation
  *
  * @author Bhathiya
@@ -44,13 +44,13 @@ public class Sieve {
     private final int size;
     private BigInteger startIndex;
     private BigInteger endIndex;
-    private final BitSet sieve;
+    private final BitSet bitSet;
 
     /**
-     * Constructor for the sieve
+     * Constructor for the bitSet
      *
-     * @param size       count of the sieve
-     * @param startIndex starting index of the sieve
+     * @param size       count of the bitSet
+     * @param startIndex starting index of the bitSet
      */
     public Sieve(int size, BigInteger startIndex) {
 
@@ -62,7 +62,7 @@ public class Sieve {
         this.size = size;
         this.startIndex = startIndex;
         endIndex = startIndex.add(BigInteger.valueOf(size));
-        sieve = new BitSet(size);
+        bitSet = new BitSet(size);
     }
 
     public Sieve(int size, long startIndex) {
@@ -70,11 +70,11 @@ public class Sieve {
     }
 
     public boolean get(BigInteger index) {
-        return sieve.get(calculateIndex(index));
+        return bitSet.get(calculateIndex(index));
     }
 
     public void set(BigInteger index) {
-        sieve.set(calculateIndex(index), true);
+        bitSet.set(calculateIndex(index), true);
     }
 
     public boolean get(long index) {
@@ -97,7 +97,7 @@ public class Sieve {
     }
 
     public void clear() {
-        sieve.clear();
+        bitSet.clear();
     }
 
     public int getSize() {
@@ -116,15 +116,24 @@ public class Sieve {
         return endIndex.subtract(BigInteger.ONE);
     }
 
+
+    public Sieve increment() {
+        return increment(true);
+    }
+
     /**
-     * Increment the sieve, use this method once the sieve is exhausted.
-     * <p>
-     * If count is 100 and start is 2,
+     * Increment the bitSet, use this method once the bitSet is exhausted.
+     * If count is 100 and start is 2, then endIndex is 102
+     * After increment startIndex is 102
+     *
+     * @param performClear if true this will clear the BitSet
+     * @return this
      */
-    public void increment() {
-        clear();
+    public Sieve increment(boolean performClear) {
+        if (performClear) clear();
         startIndex = endIndex;
         endIndex = startIndex.add(BigInteger.valueOf(size));
+        return this;
     }
 
     @Override
@@ -133,7 +142,7 @@ public class Sieve {
                 .add("count", size)
                 .add("startIndex", startIndex)
                 .add("endIndex", endIndex)
-                .add("sieve", sieve)
+                .add("bitSet", bitSet)
                 .toString();
     }
 
@@ -143,7 +152,7 @@ public class Sieve {
         hash = 71 * hash + this.size;
         hash = 71 * hash + Objects.hashCode(this.startIndex);
         hash = 71 * hash + Objects.hashCode(this.endIndex);
-        hash = 71 * hash + Objects.hashCode(this.sieve);
+        hash = 71 * hash + Objects.hashCode(this.bitSet);
         return hash;
     }
 
@@ -165,7 +174,7 @@ public class Sieve {
         if (!Objects.equals(this.endIndex, other.endIndex)) {
             return false;
         }
-        return Objects.equals(this.sieve, other.sieve);
+        return Objects.equals(this.bitSet, other.bitSet);
     }
 
     public void debugPrint(String prepend) {

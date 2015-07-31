@@ -25,11 +25,11 @@
 package info.simpll.immense.sequence;
 
 import com.google.common.collect.Lists;
+import info.simpll.immense.basic.BigIntegerBasics;
 import info.simpll.immense.prime.Prime;
 import org.junit.Test;
 
 import java.math.BigInteger;
-import java.util.Objects;
 
 /**
  * @author Bhathiya
@@ -39,38 +39,47 @@ public class SequenceTest {
     @Test
     public void testApi() {
         Sequence<Integer> s = new Sequence<>(Lists.newArrayList(10, 20, 30, 40));
-        s.calculate();
+        s.initialize();
         System.out.println(s.toString());
     }
 
     @Test
     public void eulerSumOfConsecutivePrimes() {
-        Prime primes = new Prime(BigInteger.valueOf(100));
-        primes.calculate();
-        Sequence<BigInteger> primeSequence = new Sequence<>(primes.get());
-        primeSequence.calculate();
-        Object[] cumulativeSums = primeSequence.getCumulativeSums();
+        BigInteger target = BigInteger.valueOf(1_000_000); // Target max the problem
 
-        int primeCount = primes.count();
-        int sequenceSize = 0;
+        Prime primes = new Prime(target);
+        Sequence<BigInteger> primeSequence;
+        Object[] cumulativeSums;
         BigInteger longestConsecutiveSumPrime = BigInteger.ZERO;
+        int primeCount;
+        int sequenceSize = 0;
         int currentSequenceSize = 0;
-        for(int i = primeCount - 1; i >= 0; i--) {
+
+        primes.calculate();
+        primeSequence = new Sequence<>(primes.get());
+        primeSequence.initialize();
+
+        cumulativeSums = primeSequence.getCumulativeSums();
+
+        primeCount = primes.count();
+
+        for (int i = 1; i < primeCount; i++) {
             BigInteger sumLhs = (BigInteger) cumulativeSums[i];
             if (primeSequence.contains(sumLhs)) {
-                // Edge case where it starts from 0th Index
                 currentSequenceSize = i + 1;
                 if (currentSequenceSize > sequenceSize) {
                     sequenceSize = currentSequenceSize;
                     longestConsecutiveSumPrime = sumLhs;
                 }
             }
-            for (int j = 0; j < i; j++) {
+            for (int j = i + 1; j < primeCount; j++) {
                 BigInteger sumRhs = (BigInteger) cumulativeSums[j];
-                BigInteger diffOfSums = sumLhs.subtract(sumRhs);
+                BigInteger diffOfSums = sumRhs.subtract(sumLhs);
+                if (BigIntegerBasics.isGreaterThanOrEquals(diffOfSums, target)) {
+                    break;
+                }
                 if (primeSequence.contains(diffOfSums)) {
                     currentSequenceSize = j - i;
-                    if (currentSequenceSize < 0) currentSequenceSize *= -1;
                     if (currentSequenceSize > sequenceSize) {
                         sequenceSize = currentSequenceSize;
                         longestConsecutiveSumPrime = diffOfSums;
@@ -78,7 +87,9 @@ public class SequenceTest {
                 }
             }
         }
+
         System.out.printf("Answer to Euler 50 = %s, sequenceSize = %d %n",
                 longestConsecutiveSumPrime.toString(10), sequenceSize);
+
     }
 }

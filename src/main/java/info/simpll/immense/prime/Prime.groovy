@@ -27,8 +27,6 @@ package info.simpll.immense.prime
 import com.google.common.base.MoreObjects
 import com.google.common.collect.Lists
 
-import static com.google.common.base.Preconditions.checkNotNull
-
 /**
  * Prime class is used for calculating primes
  *
@@ -39,19 +37,21 @@ class Prime {
     private final List<BigInteger> primes
     private BigInteger currentPos
     private BigInteger upTo
+    private BigInteger lastPrime
 
     public Prime(BigInteger upTo) {
-        checkNotNull(upTo, "upTo must not be null")
-        sieve = new Sieve(Sieve.MAX_SIZE, BigInteger.valueOf(2l))
+        sieve = new Sieve(Sieve.MAX_SIZE, 2g)
         primes = Lists.newArrayList(2g, 3g, 5g, 7g, 11g, 13g, 17g)
         currentPos = BigInteger.valueOf(17)
         this.upTo = upTo
-        crossOutNonPrimes();
+        crossOutNonPrimes()
+        lastPrime = 17g
     }
 
     private crossOutNonPrimes() {
         primes.stream().skip(1).forEach {
-            prime -> crossOutNonPrimes(prime)
+            prime ->
+                crossOutNonPrimes(prime)
         }
     }
 
@@ -72,6 +72,7 @@ class Prime {
             }
 
             primes.add(currentPos)
+            lastPrime = currentPos
 
             crossOutNonPrimes(currentPos)
         }
@@ -92,6 +93,10 @@ class Prime {
                 .add("upTo", upTo)
                 .add("count", count())
                 .toString();
+    }
+
+    BigInteger getLastPrime() {
+        return lastPrime
     }
 }
 

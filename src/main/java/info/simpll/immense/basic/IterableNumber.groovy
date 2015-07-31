@@ -46,7 +46,9 @@ public class IterableNumber implements Iterable<BigInteger>, Indexable<BigIntege
             consecutiveParts[index + 1] = current
             byte byteVal = (byte) parts[1].intValue()
             partsAsByte[index] = byteVal
-            maybeEven |= ((byteVal & 1) == 1)
+            if ((byteVal % 2) == 0) {
+                maybeEven = true
+            }
             hasDigit[byteVal] = true
             digitCount[byteVal]++
         }
@@ -99,7 +101,7 @@ public class IterableNumber implements Iterable<BigInteger>, Indexable<BigIntege
     }
 
     @Override
-    public boolean size() {
+    public int size() {
         return count
     }
 
@@ -122,10 +124,33 @@ public class IterableNumber implements Iterable<BigInteger>, Indexable<BigIntege
     public boolean isPandigital() {
         boolean pandigital = true
 
-        for(int i = 0; i < 10; i++) {
+        for (int i = 0; i < 10; i++) {
             pandigital &= (digitCount[i] == 0 || digitCount[i] == 1)
         }
 
         return pandigital
+    }
+
+    public BigInteger build() {
+        BigInteger recalculated = BigInteger.ZERO
+        BigInteger powerOfTen = BigInteger.ONE
+        for (int i = 0; i < count; i++) {
+            recalculated += partsAsBigInteger[i].multiply(powerOfTen)
+            powerOfTen = powerOfTen.multiply(BigInteger.TEN)
+        }
+        return recalculated
+    }
+
+    public void rotate() {
+        // TODO this should be a linked list
+        int lastIndex = count - 1
+        byte lastByte = partsAsByte[lastIndex]
+        BigInteger lastBigInt = partsAsBigInteger[lastIndex]
+        for (int i = lastIndex - 1; i >= 0; i--) {
+            partsAsByte[i + 1] = partsAsByte[i]
+            partsAsBigInteger[i + 1] = partsAsBigInteger[i]
+        }
+        partsAsByte[0] = lastByte
+        partsAsBigInteger[0] = lastBigInt
     }
 }

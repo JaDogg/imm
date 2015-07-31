@@ -5,6 +5,7 @@ import info.simpll.immense.sequence.Sequence;
 import org.junit.Test;
 
 import java.math.BigInteger;
+import java.util.List;
 
 /**
  * Created by Bhathiya on 7/31/2015.
@@ -29,5 +30,31 @@ public class IterableNumberTest {
                 System.out.printf("Answer to Euler 41 = %s%n", current.toString());
             }
         }
+    }
+
+    @Test
+    public void eulerCircularPrimes() throws Exception {
+        Prime primes = new Prime(BigIntegerBasics.HUNDRED);
+        primes.calculate();
+        List<BigInteger> primeList = primes.get();
+        Sequence<BigInteger> primeSequence = new Sequence<>(primeList);
+        primeSequence.initialize();
+
+        int circularCount = 1;
+        outerLoop:
+        for (BigInteger prime : primeList) {
+            IterableNumber iterablePrime = BigIntegerBasics.splitNumber(prime);
+            if (iterablePrime.hasEvenParts()) continue;
+            for (int i = 0; i < iterablePrime.size(); i++) {
+                iterablePrime.rotate();
+                BigInteger newPrime = iterablePrime.build();
+                if (!primeSequence.contains(newPrime)) {
+                    continue outerLoop;
+                }
+            }
+            circularCount++;
+        }
+
+        System.out.printf("Answer to Euler 35 = %d%n", circularCount);
     }
 }

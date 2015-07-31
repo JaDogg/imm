@@ -7,5 +7,5 @@ public interface Indexable<T> {
 
     public boolean has(int index);
 
-    public boolean size();
+    public int size();
 }

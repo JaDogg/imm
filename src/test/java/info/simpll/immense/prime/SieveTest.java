@@ -77,4 +77,18 @@ public class SieveTest {
         Sieve instance = new Sieve(10, 2);
         instance.set(12);
     }
+
+    @Test
+    public void testIncrement() {
+        Sieve instance = new Sieve(10, 2);
+        for (int i = 2; i < (int) instance.getEndIndex().longValue(); ++i) {
+            instance.set(BigInteger.valueOf(i));
+        }
+        instance.increment();
+        assertEquals(instance.getStartIndex(), BigInteger.valueOf(12));
+        assertEquals(instance.getEndIndex(), BigInteger.valueOf(22));
+        assertEquals(instance.getMaxIndex(), BigInteger.valueOf(21));
+        instance.debugPrint("testIncrement");
+    }
+
 }

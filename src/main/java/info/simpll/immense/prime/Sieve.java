@@ -27,7 +27,7 @@ import com.google.common.base.MoreObjects;
 import java.math.BigInteger;
 import java.util.BitSet;
 import java.util.Objects;
-
+import java.util.stream.IntStream;
 /**
  *
  * @author Bhathiya
@@ -113,7 +113,7 @@ public class Sieve {
 
     public void increment() {
         clear();
-        startIndex = endIndex.add(BigInteger.ONE);
+        startIndex = endIndex;
         endIndex = startIndex.add(BigInteger.valueOf(size));
     }
 
@@ -159,6 +159,15 @@ public class Sieve {
     }
 
     public void debugPrint(String prepend) {
-        System.out.printf("SIEVE: %s %s\n", prepend, this.toString());
+        StringBuilder primeList = new StringBuilder();
+        IntStream.rangeClosed(0, size - 1).forEach(i -> {
+            BigInteger index = startIndex.add(BigInteger.valueOf(i));
+            if (!get(index)) {
+                primeList.append(" ");
+                primeList.append(index.toString(10));
+            }
+        });
+        System.out.printf("SIEVE: %s %s: Unset {%s }\n",
+                prepend, this.toString(), primeList);
     }
 }

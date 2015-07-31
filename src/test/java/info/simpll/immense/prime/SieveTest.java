@@ -23,7 +23,7 @@
  */
 package info.simpll.immense.prime;
 
-
+import java.math.BigInteger;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -32,14 +32,49 @@ import static org.junit.Assert.*;
  * @author Bhathiya
  */
 public class SieveTest {
-    
+
     @Test
-    public void testNewSieveGet() {
+    public void testApi() {
         Sieve instance = new Sieve(10, 2);
-        boolean expResult = false;
-        boolean result = instance.get(11);
-        assertEquals(expResult, result);
+        boolean result = instance.get(10);
+        instance.debugPrint("testApi");
+        assertFalse(result);
+        assertTrue(instance.getMaxIndex()
+                .compareTo(BigInteger.valueOf(11)) == 0);
     }
 
-    
+    @Test
+    public void testSetAndGet() {
+        Sieve instance = new Sieve(10, 2);
+        for (int i = 2; i < (int) instance.getEndIndex().longValue(); ++i) {
+            instance.set(BigInteger.valueOf(i));
+        }
+        instance.debugPrint("testSetAndGet");
+        for (int i = 2; i < (int) instance.getEndIndex().longValue(); ++i) {
+            assertTrue(instance.get(BigInteger.valueOf(i)));
+        }
+    }
+
+    @Test
+    public void testSetAndGetEdge() {
+        Sieve instance = new Sieve(10, 2);
+        instance.set(11);
+        instance.set(2);
+
+        assertTrue(instance.get(11));
+        assertTrue(instance.get(2));
+        instance.debugPrint("testSetAndGetEdge");
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void testLowerEdgeOut() {
+        Sieve instance = new Sieve(10, 2);
+        instance.set(1);
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void testUpperEdgeOut() {
+        Sieve instance = new Sieve(10, 2);
+        instance.set(12);
+    }
 }

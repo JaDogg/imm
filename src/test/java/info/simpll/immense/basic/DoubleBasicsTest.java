@@ -21,15 +21,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package info.simpll.immense.prime;
+package info.simpll.immense.basic;
 
-import java.math.BigInteger;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
- * Prime class will call the PrimeEvent object when a new prime is discovered
- * 
+ *
  * @author Bhathiya
  */
-public interface PrimeEvent {
-    public boolean onPrime(BigInteger prime);
+public class DoubleBasicsTest {
+    
+    @Test
+    public void testDoubleEquals() {
+        System.out.println("doubleEquals");
+        double a = 3.0;
+        double b = 6.0 / 2.0;
+        boolean expResult = true;
+        boolean result = DoubleBasics.doubleEquals(a, b);
+        assertEquals(expResult, result);
+    }
+    
 }

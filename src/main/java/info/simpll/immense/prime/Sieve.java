@@ -24,11 +24,16 @@
 package info.simpll.immense.prime;
 
 import com.google.common.base.MoreObjects;
+
 import java.math.BigInteger;
 import java.util.BitSet;
 import java.util.Objects;
 import java.util.stream.IntStream;
+
 /**
+ * Sieve holds a BitSet that is used to cross out numbers,
+ * However unlike BitSet, sieve uses different indexing scheme
+ * Which is more suitable for prime number calculation
  *
  * @author Bhathiya
  */
@@ -44,7 +49,7 @@ public class Sieve {
     /**
      * Constructor for the sieve
      *
-     * @param size size of the sieve
+     * @param size       count of the sieve
      * @param startIndex starting index of the sieve
      */
     public Sieve(int size, BigInteger startIndex) {
@@ -53,7 +58,7 @@ public class Sieve {
             throw new IllegalArgumentException("Size is larger than "
                     + "the allowed maximum or smaller than 10");
         }
-
+        // TODO count > 2
         this.size = size;
         this.startIndex = startIndex;
         endIndex = startIndex.add(BigInteger.valueOf(size));
@@ -86,7 +91,7 @@ public class Sieve {
                 || getStartIndex().compareTo(index) == 1) {
             throw new IndexOutOfBoundsException("Invalid position");
         }
-        // This should not be a problem since we are ensuring that the size
+        // This should not be a problem since we are ensuring that the count
         // Is less than MAX_SIZE, which is an integer
         return (int) (index.subtract(getStartIndex()).longValue());
     }
@@ -111,6 +116,11 @@ public class Sieve {
         return endIndex.subtract(BigInteger.ONE);
     }
 
+    /**
+     * Increment the sieve, use this method once the sieve is exhausted.
+     * <p>
+     * If count is 100 and start is 2,
+     */
     public void increment() {
         clear();
         startIndex = endIndex;
@@ -120,7 +130,7 @@ public class Sieve {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this.getClass())
-                .add("size", size)
+                .add("count", size)
                 .add("startIndex", startIndex)
                 .add("endIndex", endIndex)
                 .add("sieve", sieve)

@@ -23,12 +23,15 @@
  */
 package info.simpll.immense.prime;
 
-import java.math.BigInteger;
-
-import static org.junit.Assert.*;
-
 import com.google.common.base.Joiner;
+import com.google.common.math.LongMath;
 import org.junit.Test;
+
+import java.math.BigInteger;
+import java.math.RoundingMode;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
 
 /**
  * @author Bhathiya
@@ -38,19 +41,62 @@ public class PrimeTest {
     @Test
     public void testApi() {
         Prime p = new Prime(BigInteger.TEN);
-        assertEquals(p.size(), 7);
+        assertEquals(p.count(), 7);
     }
 
     @Test
     public void testFirstFewPrimes() {
-        Prime prime = new Prime(BigInteger.valueOf(10000));
+        Prime prime = new Prime(BigInteger.valueOf(7000));
 
         prime.calculate();
-        String expected = Joiner.on(", ").join(PrimeList.get().subList(0, prime.size()));
+        String expected = Joiner.on(", ").join(PrimeList.get().subList(0, prime.count()));
         String actual = Joiner.on(", ").join(prime.get());
 
-        System.out.println("Calculated = " + actual);
-        System.out.println("Stored     = " + expected);
+        System.out.printf("Calculated = %s%n", actual);
+        System.out.printf("Stored     = %s%n", expected);
         assertEquals(expected, actual);
     }
+
+    @Test
+    public void eulerLargestPrimeFactor() {
+        long targetNumber = 600851475143l;
+        long targetSquareRoot = LongMath.sqrt(targetNumber, RoundingMode.CEILING);
+
+        Prime prime = new Prime(BigInteger.valueOf(targetSquareRoot));
+        prime.calculate();
+
+        long lastPrime = -1;
+        for (BigInteger p : prime.get()) {
+            lastPrime = p.longValue();
+
+            while (targetNumber > 1 && targetNumber % lastPrime == 0) {
+                targetNumber /= lastPrime;
+            }
+
+            if (targetNumber == 1) {
+                break;
+            }
+        }
+        if (targetNumber != 1) {
+            lastPrime = targetNumber;
+        }
+
+        assertNotSame(-1l, lastPrime);
+
+        System.out.printf("Answer to Euler 03 = %d%n", lastPrime);
+    }
+
+    @Test
+    public void eulerSumOfPrimesBelowTwoMillion() {
+        Prime prime = new Prime(BigInteger.valueOf(2_000_000l));
+        prime.calculate();
+
+        BigInteger sum = BigInteger.ZERO;
+        for (BigInteger p : prime.get()) {
+            sum = sum.add(p);
+        }
+        System.out.printf("Answer to Euler 10 = %s%n", sum.toString(10));
+        System.out.printf("Answer to Euler 07 = %s%n", prime.get().get(10000)); // zero based index
+    }
+
 }

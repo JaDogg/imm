@@ -21,33 +21,54 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package info.simpll.immense.basic;
-
-import java.math.BigInteger;
+package info.simpll.immense.basic
 
 /**
+ * This class greatly simplifies BigInteger comparisons for Java
  *
  * @author Bhathiya
  */
-public class BigIntegerBasics {
+class BigIntegerBasics {
 
     public static boolean isLessThan(BigInteger leftHandSide,
-            BigInteger rightHandSide) {
-        return leftHandSide.compareTo(rightHandSide) == -1;
+                                     BigInteger rightHandSide) {
+
+        return leftHandSide < rightHandSide
+    }
+
+    public static boolean isLessThan(BigInteger leftHandSide,
+                                     int rightHandSide) {
+        return leftHandSide < rightHandSide
     }
 
     public static boolean isGreaterThan(BigInteger leftHandSide,
-            BigInteger rightHandSide) {
-        return leftHandSide.compareTo(rightHandSide) == 1;
+                                        BigInteger rightHandSide) {
+        return leftHandSide > rightHandSide
+    }
+
+    public static boolean isGreaterThan(BigInteger leftHandSide,
+                                        int rightHandSide) {
+        return leftHandSide > rightHandSide
     }
 
     public static boolean isLessThanOrEquals(BigInteger leftHandSide,
-            BigInteger rightHandSide) {
-        return leftHandSide.compareTo(rightHandSide) <= 0;
+                                             BigInteger rightHandSide) {
+        return leftHandSide <= rightHandSide
+    }
+
+    public static boolean isLessThanOrEquals(BigInteger leftHandSide,
+                                             int rightHandSide) {
+        return leftHandSide <= rightHandSide
     }
 
     public static boolean isGreaterThanOrEquals(BigInteger leftHandSide,
-            BigInteger rightHandSide) {
-        return leftHandSide.compareTo(rightHandSide) >= 0;
+                                                BigInteger rightHandSide) {
+        return leftHandSide >= rightHandSide
     }
+
+    public static boolean isGreaterThanOrEquals(BigInteger leftHandSide,
+                                                int rightHandSide) {
+        return leftHandSide >= rightHandSide
+    }
+
 }

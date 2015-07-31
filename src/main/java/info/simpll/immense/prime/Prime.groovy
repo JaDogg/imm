@@ -24,8 +24,10 @@
 
 package info.simpll.immense.prime
 
-import static com.google.common.base.Preconditions.*;
+import com.google.common.base.MoreObjects
 import com.google.common.collect.Lists
+
+import static com.google.common.base.Preconditions.checkNotNull
 
 /**
  * Prime class is used for calculating primes
@@ -35,32 +37,26 @@ import com.google.common.collect.Lists
 class Prime {
     private sieve
     private final List<BigInteger> primes
-    private primeCount
     private BigInteger currentPos
     private BigInteger upTo
 
-    private enum ExitCondition {
-        UP_TO,
-        COUNT
-    }
-
     public Prime(BigInteger upTo) {
-        checkNotNull(upTo)
-        // TODO Use a better more suited maximum
+        checkNotNull(upTo, "upTo must not be null")
         sieve = new Sieve(Sieve.MAX_SIZE, BigInteger.valueOf(2l))
-        primes = Lists.newArrayList(2, 3, 5, 7, 11, 13, 17)
-        primeCount = 7
+        primes = Lists.newArrayList(2g, 3g, 5g, 7g, 11g, 13g, 17g)
         currentPos = BigInteger.valueOf(17)
         this.upTo = upTo
         crossOutNonPrimes();
     }
 
     private crossOutNonPrimes() {
-        primes.stream().forEach({ prime -> crossOutNonPrimes(prime) })
+        primes.stream().skip(1).forEach {
+            prime -> crossOutNonPrimes(prime)
+        }
     }
 
     private crossOutNonPrimes(BigInteger prime) {
-        for (BigInteger i = prime; i < upTo; i += prime) {
+        for (BigInteger i = prime; i < upTo; i += prime + prime) {
             sieve.set(i)
         }
     }
@@ -75,19 +71,27 @@ class Prime {
                 return
             }
 
-            // Found a new prime
             primes.add(currentPos)
 
             crossOutNonPrimes(currentPos)
         }
     }
 
-    public int size() {
+    public int count() {
         return primes.size()
     }
 
     public List<BigInteger> get() {
         return primes
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this.getClass())
+                .add("currentPos", currentPos)
+                .add("upTo", upTo)
+                .add("count", count())
+                .toString();
     }
 }
 

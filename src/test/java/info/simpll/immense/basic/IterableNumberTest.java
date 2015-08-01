@@ -92,4 +92,19 @@ public class IterableNumberTest {
 
         System.out.printf("Answer to Euler 37 = %s, Count = %d %n", sum.toString(), truncatableCount);
     }
+
+    @Test
+    public void eulerDoubleBasePalindrome() {
+        long max = 1_000_000;
+        BigInteger sum = BigInteger.ZERO;
+        for (long i = 1; i < max; i++) {
+            BigInteger currentNumber = BigInteger.valueOf(i);
+            if (!BigIntegerBasics.isBinaryPalindrome(currentNumber)) continue;
+            IterableNumber currentNumberAsIterable = BigIntegerBasics.splitNumber(currentNumber);
+            if (currentNumberAsIterable.isPalindrome()) sum = sum.add(currentNumber);
+        }
+
+        System.out.printf("Answer to Euler 36 = %s", sum.toString());
+    }
+
 }

@@ -26,18 +26,19 @@ package info.simpll.immense.prime
 
 import com.google.common.base.MoreObjects
 import com.google.common.collect.Lists
+import info.simpll.immense.common.Calculator
 
 /**
  * Prime class is used for calculating primes
  *
  * @author Bhathiya
  */
-class Prime {
+class Prime implements Calculator {
     private sieve
     private final List<BigInteger> primes
     private BigInteger currentPos
     private BigInteger upTo
-    private BigInteger lastPrime
+    private BigInteger last
 
     public Prime(BigInteger upTo) {
         sieve = new Sieve(Sieve.MAX_SIZE, 2g)
@@ -45,7 +46,7 @@ class Prime {
         currentPos = BigInteger.valueOf(17)
         this.upTo = upTo
         crossOutNonPrimes()
-        lastPrime = 17g
+        last = 17g
     }
 
     private crossOutNonPrimes() {
@@ -61,7 +62,8 @@ class Prime {
         }
     }
 
-    public calculate() {
+    @Override
+    public void calculate() {
         while (true) {
             while (sieve.get(currentPos) && currentPos < upTo) {
                 currentPos += 2
@@ -72,16 +74,18 @@ class Prime {
             }
 
             primes.add(currentPos)
-            lastPrime = currentPos
+            last = currentPos
 
             crossOutNonPrimes(currentPos)
         }
     }
 
+    @Override
     public int count() {
         return primes.size()
     }
 
+    @Override
     public List<BigInteger> get() {
         return primes
     }
@@ -95,8 +99,9 @@ class Prime {
                 .toString();
     }
 
-    BigInteger getLastPrime() {
-        return lastPrime
+    @Override
+    BigInteger getLast() {
+        return last
     }
 }
 

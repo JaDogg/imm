@@ -1,4 +1,4 @@
-package info.simpll.immense.basic;
+package info.simpll.immense.common;
 
 
 public interface Indexable<T> {

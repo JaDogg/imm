@@ -1,6 +1,7 @@
 package info.simpll.immense.basic
 
 import com.google.common.base.MoreObjects
+import info.simpll.immense.common.Indexable
 
 public class IterableNumber implements Iterable<BigInteger>, Indexable<BigInteger> {
     private int count
@@ -190,27 +191,36 @@ public class IterableNumber implements Iterable<BigInteger>, Indexable<BigIntege
         return new IterableNumber(original)
     }
 
-    int getCount() {
+    public int getCount() {
         return count
     }
 
-    int getLastIndex() {
+    public int getLastIndex() {
         return lastIndex
     }
 
-    byte[] getPartsAsByte() {
+    public byte[] getPartsAsByte() {
         return partsAsByte
     }
 
-    BigInteger[] getPartsAsBigInteger() {
+    public BigInteger[] getPartsAsBigInteger() {
         return partsAsBigInteger
     }
 
-    BigInteger[] getLeftConsecutiveParts() {
+    public BigInteger[] getLeftConsecutiveParts() {
         return leftConsecutiveParts
     }
 
-    BigInteger[] getRightConsecutiveParts() {
+    public BigInteger[] getRightConsecutiveParts() {
         return rightConsecutiveParts
+    }
+
+    public boolean isPalindrome() {
+        for (int i = 0; i < count / 2; i++) {
+            if (partsAsByte[i] != partsAsByte[lastIndex - i]) {
+                return false
+            }
+        }
+        return true
     }
 }

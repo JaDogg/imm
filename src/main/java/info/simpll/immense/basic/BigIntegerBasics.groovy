@@ -32,6 +32,7 @@ public class BigIntegerBasics {
 
     public static BigInteger ONE_MILLION = BigInteger.valueOf(1_000_000l)
     public static BigInteger TWO_MILLION = BigInteger.valueOf(2_000_000l)
+    public static BigInteger TEN_MILLION = BigInteger.valueOf(10_000_000l)
     public static BigInteger THOUSAND = BigInteger.valueOf(1000l)
     public static BigInteger HUNDRED = BigInteger.valueOf(100l)
     public static BigInteger FIVE = BigInteger.valueOf(5l)
@@ -85,5 +86,15 @@ public class BigIntegerBasics {
 
     public static IterableNumber splitNumber(BigInteger value) {
         return new IterableNumber(value)
+    }
+
+    public static boolean isBinaryPalindrome(BigInteger value) {
+        int lastIndex = value.bitLength() - 1;
+        for (int i = 0; i < value.bitLength() / 2; i++) {
+            if (value.testBit(i) ^ value.testBit(lastIndex - i)) {
+                return false
+            }
+        }
+        return true
     }
 }

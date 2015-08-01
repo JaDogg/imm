@@ -89,7 +89,7 @@ public class BigIntegerBasics {
     }
 
     public static boolean isBinaryPalindrome(BigInteger value) {
-        int lastIndex = value.bitLength() - 1;
+        int lastIndex = value.bitLength() - 1
         for (int i = 0; i < value.bitLength() / 2; i++) {
             if (value.testBit(i) ^ value.testBit(lastIndex - i)) {
                 return false

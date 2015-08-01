@@ -24,8 +24,10 @@
 package info.simpll.immense.common;
 
 /**
+ * Represents a binary operation
+ *
  * @author Bhathiya
  */
-public interface Operation<T> {
+public interface BinaryOperation<T> {
     public T operate(T leftHandSide, T rightHandSide);
 }

@@ -24,12 +24,11 @@
 package info.simpll.immense.basic;
 
 /**
- *
  * @author Bhathiya
  */
 public class DoubleBasics {
     public static double EPSILON = Math.pow(1, -10);
-    
+
     public static boolean doubleEquals(double a, double b) {
         return (Math.abs(a - b) <= EPSILON);
     }

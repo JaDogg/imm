@@ -24,14 +24,14 @@
 package info.simpll.immense.basic;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
 
 /**
- *
  * @author Bhathiya
  */
 public class DoubleBasicsTest {
-    
+
     @Test
     public void testDoubleEquals() {
         System.out.println("doubleEquals");
@@ -41,5 +41,5 @@ public class DoubleBasicsTest {
         boolean result = DoubleBasics.doubleEquals(a, b);
         assertEquals(expResult, result);
     }
-    
+
 }

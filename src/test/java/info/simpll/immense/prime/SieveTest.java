@@ -23,12 +23,13 @@
  */
 package info.simpll.immense.prime;
 
-import java.math.BigInteger;
 import org.junit.Test;
+
+import java.math.BigInteger;
+
 import static org.junit.Assert.*;
 
 /**
- *
  * @author Bhathiya
  */
 public class SieveTest {

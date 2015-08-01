@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Contains a list of first 1000 prime numbers, This is a singleton class 
+ * Contains a list of first 1000 prime numbers, This is a singleton class
  * That extends ArrayList of integers
  *
  * @author Bhathiya
@@ -1043,7 +1043,7 @@ public class PrimeList extends ArrayList<Integer> {
     public static List<Integer> getList() {
         return instance;
     }
-    
+
     public static PrimeList get() {
         return instance;
     }

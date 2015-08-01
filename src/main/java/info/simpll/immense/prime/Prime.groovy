@@ -96,7 +96,7 @@ class Prime implements Calculator {
                 .add("currentPos", currentPos)
                 .add("upTo", upTo)
                 .add("count", count())
-                .toString();
+                .toString()
     }
 
     @Override

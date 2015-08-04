@@ -97,4 +97,24 @@ public class BigIntegerBasics {
         }
         return true
     }
+
+    public static BigInteger calculateProduct(BigInteger... numbers) {
+        BigInteger product = BigInteger.ONE
+        for (BigInteger number : numbers) {
+            product *= number
+        }
+        return product
+    }
+
+    public static BigInteger calculateProduct(long a1, BigInteger... numbers) {
+        return calculateProduct(numbers) * BigInteger.valueOf(a1)
+    }
+
+    public static BigInteger calculateProduct(long a1, long a2, BigInteger... numbers) {
+        return calculateProduct(numbers) * BigInteger.valueOf(a1) * BigInteger.valueOf(a2)
+    }
+
+    public static BigInteger calculateProduct(long a1, long a2, long a3, BigInteger... numbers) {
+        return calculateProduct(numbers) * BigInteger.valueOf(a1) * BigInteger.valueOf(a2) * BigInteger.valueOf(a3)
+    }
 }

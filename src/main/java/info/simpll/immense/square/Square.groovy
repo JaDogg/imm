@@ -21,36 +21,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package info.simpll.immense.factorial
+package info.simpll.immense.square
 
 import com.google.common.collect.Lists
 import info.simpll.immense.common.Calculator
 
 /**
- * Factorial calculator
- *
- * @author Bhathiya
+ * Square calculator
  */
-class Factorial implements Calculator {
-
+class Square implements Calculator {
     private BigInteger upTo
     private BigInteger last
-    private List<BigInteger> factorials
+    private List<BigInteger> squares
 
-    public Factorial(BigInteger upTo) {
+    public Square(BigInteger upTo) {
         this.upTo = upTo
-        factorials = Lists.newArrayList(1g, 1g)
-        last = 2g
+        squares = Lists.newArrayList(0g, 1g)
+        last = 1g
     }
 
     @Override
     public void calculate() {
-        BigInteger current = 2g
-        BigInteger base = 2g
-        while (current <= upTo) {
-            factorials.add(current)
-            last = current
-            current *= ++base
+        BigInteger counter = 2g
+        last = 4g
+        while (last <= upTo) {
+            squares.add(last)
+            counter++
+            last = counter * counter
         }
     }
 
@@ -61,11 +58,12 @@ class Factorial implements Calculator {
 
     @Override
     List<BigInteger> get() {
-        return factorials
+        return squares
     }
 
     @Override
     int count() {
-        return factorials.size()
+        return squares.size()
     }
+
 }

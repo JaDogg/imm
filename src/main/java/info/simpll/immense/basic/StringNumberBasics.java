@@ -25,8 +25,13 @@ package info.simpll.immense.basic;
 
 import com.google.common.base.CharMatcher;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.LongSummaryStatistics;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Utility class to handle numbers that represented in strings
@@ -34,6 +39,10 @@ import java.util.List;
  * @author Bhathiya
  */
 public class StringNumberBasics {
+
+    public static int SAFE_LONG_STRING_LENGTH = String.valueOf(Long.MAX_VALUE).length() - 1;
+    public static int SAFE_INT_STRING_LENGTH = String.valueOf(Integer.MAX_VALUE).length() - 1;
+    public static int SAFE_BYTE_STRING_LENGTH = String.valueOf(Byte.MAX_VALUE).length() - 1;
 
     public static List<Byte> extractDigits(String textWithDigits) {
 
@@ -47,6 +56,43 @@ public class StringNumberBasics {
         }
 
         return digits;
+    }
+
+    public static List<Long> extractNumbersRight(String text, int digitCount) {
+        List<Long> list = new ArrayList<>();
+        Pattern regex = Pattern.compile("\\d+");
+        Matcher matcher = regex.matcher(text);
+        while (matcher.find()) {
+            String number = matcher.group();
+            list.add(Long.parseLong(number.substring(
+                    number.length() - digitCount, number.length())));
+        }
+
+        return list;
+    }
+
+    public static List<Long> extractNumbersLeft(String text, int digitCount) {
+        List<Long> list = new ArrayList<>();
+        Pattern regex = Pattern.compile("\\d+");
+        Matcher matcher = regex.matcher(text);
+        while (matcher.find()) {
+            String number = matcher.group();
+            list.add(Long.parseLong(number.substring(0, digitCount)));
+        }
+
+        return list;
+    }
+
+    public static List<BigInteger> extractNumbers(String text) {
+        List<BigInteger> list = new ArrayList<>();
+        Pattern regex = Pattern.compile("\\d+");
+        Matcher matcher = regex.matcher(text);
+        while (matcher.find()) {
+            String number = matcher.group();
+            list.add(new BigInteger(number));
+        }
+
+        return list;
     }
 
     public static String keepDigits(String textWithDigits) {

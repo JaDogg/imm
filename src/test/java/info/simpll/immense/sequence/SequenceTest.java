@@ -45,7 +45,7 @@ public class SequenceTest {
 
     @Test
     public void eulerSumOfConsecutivePrimes() {
-        BigInteger target = BigInteger.valueOf(1_000_000);
+        BigInteger target = BigIntegerBasics.ONE_MILLION;
 
         Prime primes = new Prime(target);
         Sequence<BigInteger> primeSequence;
